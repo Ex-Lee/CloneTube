@@ -1,30 +1,95 @@
 import routes from "../routes";
+import Video from "../models/Video";
 
-export const home = (req, res) =>
-  res.render("home", { pageName: "Home", videos });
-export const search = (req, res) => {
+export const home = async (req, res) => {
+  try {
+    const videos = await Video.find({}).sort({ _id: -1 });
+    res.render("home", { pageName: "Home", videos });
+  } catch (error) {
+    console.log(error);
+    res.render("home", { pageName: "Home", videos: [] });
+  }
+};
+
+export const search = async (req, res) => {
+  let videos = [];
   const {
     query: { term: searchingBy },
   } = req;
+  try {
+    videos = await Video.find({
+      title: { $regex: searchingBy, $options: "i" },
+    });
+  } catch (error) {
+    console.log(error);
+  }
+  console.log(videos);
   res.render("search", { pageName: "Search", searchingBy, videos });
 };
 
 export const getUpload = (req, res) =>
   res.render("upload", { pageName: "Upload" });
 
-export const postUpload = (req, res) => {
+export const postUpload = async (req, res) => {
   const {
-    body: { file, title, description },
+    body: { title, description },
+    file: { path },
   } = req;
-  // To Do : Upload and save video
-  res.redirect(routes.videoDetail(324393));
+
+  const newVideo = await Video.create({
+    fileUrl: path,
+    title,
+    description,
+  });
+  res.redirect(routes.videoDetail(newVideo.id));
 };
 
-export const videoDetail = (req, res) =>
-  res.render("videoDetail", { pageName: "Video Detail" });
+export const videoDetail = async (req, res) => {
+  try {
+    const {
+      params: { id },
+    } = req;
+    const video = await Video.findById(id);
+    res.render("videoDetail", { pageName: video.title, video });
+  } catch (error) {
+    res.redirect(routes.home);
+  }
+};
 
-export const editVideo = (req, res) =>
-  res.render("editVideo", { pageName: "Edit Video" });
+export const getEditVideo = async (req, res) => {
+  try {
+    const {
+      params: { id },
+    } = req;
+    const video = await Video.findById(id);
+    res.render("editVideo", { pageName: `Edit ${video.title}`, video });
+  } catch (error) {
+    res.redirect(routes.home);
+  }
+};
 
-export const deleteVideo = (req, res) =>
-  res.render("deleteVideo", { pageName: "Delete Video" });
+export const postEditVideo = async (req, res) => {
+  try {
+    const {
+      params: { id },
+      body: { title, description },
+    } = req;
+    await Video.findOneAndUpdate({ _id: id }, { title, description });
+    res.redirect(routes.videoDetail(id));
+  } catch (error) {
+    res.redirect(routes.home);
+  }
+};
+
+export const deleteVideo = async (req, res) => {
+  try {
+    const {
+      params: { id },
+    } = req;
+    console.log("ASdfsafsafsafdasfdsafsafadf");
+    await Video.findOneAndRemove({ _id: id });
+  } catch (error) {
+    console.log(error);
+  }
+  res.redirect(routes.home);
+};

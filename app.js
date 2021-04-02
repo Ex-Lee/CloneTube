@@ -20,6 +20,10 @@ app.use(bodyParser.urlencoded({ extended: true }));
 app.use(morgan("dev"));
 app.use(localsMiddleware);
 
+// Temp code
+app.use("/uploads", express.static("uploads"));
+//
+
 app.use(routes.home, globalRouter);
 app.use(routes.user, userRouter);
 app.use(routes.video, videoRouter);
