@@ -119,3 +119,4 @@ package-lock.json
 .DS_Store
 uploads
 settings.js
+assets
