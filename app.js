@@ -20,6 +20,7 @@ app.use(bodyParser.urlencoded({ extended: true }));
 app.use(morgan("dev"));
 app.use(localsMiddleware);
 
+app.use("/static", express.static("static"));
 // Temp code
 app.use("/uploads", express.static("uploads"));
 //
