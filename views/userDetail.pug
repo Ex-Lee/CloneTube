@@ -1,4 +1,16 @@
 extends layouts/main
 
 block content
-    p User Detail
+    .user-profile
+        .user-profile__header
+            img.u-avatar(src=user.avatarUrl)
+            h4.profile__username=user.name
+        if user.id === loggedUser.id
+            .user-profile__btns
+                a(href=`${routes.user}${routes.editProfile}`)
+                    button ✏️ Edit Profile
+                a(href=`${routes.user}${routes.changePassword}`)
+                    button 🔒 Change Password
+                //- if loggedUser.kakaoId
+                //-     a(href=`${routes.user}${routes.changePassword}`)
+                //-         button 🔒 Change Password

@@ -21,8 +21,13 @@
     background-color: $black;
     color: white;
   }
-  .social-login--facebook {
-    background-color: #3a5998;
-    color: white;
+  .social-login--kakao {
+    background-color: #fee500;
+    a {
+      color: black;
+    }
+    img {
+      width: 19.38px;
+    }
   }
 }
