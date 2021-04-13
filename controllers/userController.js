@@ -90,6 +90,7 @@ export const kakaoLoginCallback = async (_, __, profile, cb) => {
   try {
     const user = await User.findOne({ kakaoId: id });
     if (user) {
+      // ##개선사항 카카오톡 프로필 사진 땡겨오는 버튼 따로 만들기(지금은 카카오 로그인이면 무조건 프로필 사진이 땡겨와짐)
       user.avatarUrl = avatarUrl;
       user.save();
       return cb(null, user);
@@ -124,15 +125,57 @@ export const userDetail = async (req, res) => {
     params: { id },
   } = req;
   try {
-    const user = await User.findById(id);
+    const user = await User.findById(id).populate("videos");
+    console.log(user);
     res.render("userDetail", { pageName: "User Detail", user });
   } catch (error) {
     res.redirect(routes.home);
   }
 };
 
-export const editProfile = (req, res) =>
+export const getEditProfile = (req, res) =>
   res.render("editProfile", { pageName: "Edit Profile" });
 
-export const changePassword = (req, res) =>
+export const postEditProfile = async (req, res) => {
+  const {
+    user: { _id: id },
+    body: { name, email },
+    file,
+  } = req;
+  try {
+    console.log(name);
+    await User.findOneAndUpdate(
+      { _id: id },
+      {
+        name,
+        email,
+        avatarUrl: file ? file.path : req.user.avatarUrl,
+      }
+    );
+    res.redirect(routes.me);
+  } catch (error) {
+    res.render("editProfile", { pageName: "Edit Profile" });
+  }
+};
+
+export const getChangePassword = (req, res) =>
   res.render("changePassword", { pageName: "Change Password" });
+
+export const postChangePassword = async (req, res) => {
+  try {
+    const {
+      body: { oldPassword, newPassword, newPassword1 },
+    } = req;
+    if (newPassword !== newPassword1) {
+      res.status(400);
+      res.redirect(routes.user + routes.changePassword);
+    } else {
+      await req.user.changePassword(oldPassword, newPassword);
+      res.redirect(routes.me);
+    }
+  } catch (error) {
+    console.log(error);
+    res.status(400);
+    res.redirect(routes.user + routes.changePassword);
+  }
+};

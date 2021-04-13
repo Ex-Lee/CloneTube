@@ -5,10 +5,14 @@ block content
         .video__player
             video(src=`/${video.fileUrl}`, controls=true)
         .video__info
-            a(href=routes.editVideo(video.id))
-                button Edit video
+            if loggedUser && video.creator.id === loggedUser.id
+                a(href=routes.editVideo(video.id))
+                    button Edit video
             h5.video__title=video.title
             p.video__description=video.description
+            .video__author
+                |Uploaded by 
+                a(href=routes.userDetail(video.creator.id))=video.creator.name
             if video.views === 1
                 span.video__views 1 view
             else 

@@ -9,6 +9,7 @@ export const localsMiddleware = (req, res, next) => {
 };
 
 const multerVideo = multer({ dest: "uploads/videos/" });
+const multerAvatar = multer({ dest: "uploads/avatars/" });
 
 export const onlyPublic = (req, res, next) => {
   if (req.user) {
@@ -34,3 +35,4 @@ export const kakaoJoinReset = (req, res, next) => {
 };
 
 export const uploadVideo = multerVideo.single("videoFile");
+export const uploadAvatar = multerAvatar.single("avatar");

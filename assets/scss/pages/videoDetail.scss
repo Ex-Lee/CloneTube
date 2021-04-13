@@ -12,9 +12,15 @@
     }
     .video__title,
     .video__views,
-    .video__description {
+    .video__description,
+    .video__author {
       display: block;
       margin-bottom: 15px;
+    }
+    .video__author {
+      a {
+        color: #3498db;
+      }
     }
     .video__title {
       font-size: 22px;
