@@ -1,6 +1,7 @@
 import passport from "passport";
 import routes from "../routes";
 import User from "../models/User";
+import Comment from "../models/Comment";
 
 export const getJoin = (req, res) => {
   res.render("getJoin", { pageName: "Join" });
@@ -10,7 +11,6 @@ export const postJoin = async (req, res, next) => {
   const {
     body: { name, email, password, password2, kakaoId },
   } = req;
-  console.log(kakaoId);
   if (password !== password2) {
     res.status(400);
     res.render("getJoin", { pageName: "Join" });
@@ -101,7 +101,6 @@ export const kakaoLoginCallback = async (_, __, profile, cb) => {
         kakaoId: id,
         avatarUrl,
       });
-      console.log(newUser);
       return cb(null, newUser);
     } else {
       return cb(null, id);
@@ -126,7 +125,6 @@ export const userDetail = async (req, res) => {
   } = req;
   try {
     const user = await User.findById(id).populate("videos");
-    console.log(user);
     res.render("userDetail", { pageName: "User Detail", user });
   } catch (error) {
     res.redirect(routes.home);
@@ -142,16 +140,27 @@ export const postEditProfile = async (req, res) => {
     body: { name, email },
     file,
   } = req;
+
   try {
-    console.log(name);
+    if (file) {
+      console.log(file.path);
+      await Comment.updateMany(
+        { avatarUrl: `${req.user.avatarUrl}` },
+        {
+          avatarUrl: file ? `/${file.path}` : `${req.user.avatarUrl}`,
+        }
+      );
+    }
+
     await User.findOneAndUpdate(
       { _id: id },
       {
         name,
         email,
-        avatarUrl: file ? file.path : req.user.avatarUrl,
+        avatarUrl: file ? `/${file.path}` : `${req.user.avatarUrl}`,
       }
     );
+
     res.redirect(routes.me);
   } catch (error) {
     res.render("editProfile", { pageName: "Edit Profile" });

@@ -35,8 +35,75 @@
   }
   .video__comments {
     margin-top: 25px;
+    text-align: center;
+    width: 100%;
     .video__comment-number {
       font-size: 18px;
+    }
+    .video__comments-loginMessage {
+      margin-top: 50px;
+      font-size: 15px;
+    }
+    .add__comment {
+      margin-top: 25px;
+      width: 100%;
+      input {
+        width: 100%;
+      }
+    }
+    .video__comments-list {
+      //##개선사항 유저 아이디 추가
+      margin-top: 50px;
+
+      #commentDiv {
+        display: grid;
+        grid-template-columns: 50px auto;
+        grid-column-gap: 10px;
+        &:not(:last-child) {
+          margin-bottom: 20px;
+        }
+        .video__comments-avatar {
+          display: flex;
+          align-items: center;
+          grid-row: 1 / span 2;
+          img {
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+          }
+        }
+        .video__comments-name {
+          display: flex;
+          flex-direction: column;
+          align-items: flex-start;
+          margin-bottom: 5px;
+          word-break: break-all;
+          div:not(:first-child) {
+            font-size: 8px;
+          }
+        }
+        .video__comments-text {
+          display: flex;
+          li {
+            width: fit-content;
+            word-break: break-all;
+            max-width: inherit;
+            background-color: #3498db;
+            color: white;
+            padding: 15px;
+            border-radius: 20px;
+            border-top-left-radius: 0px;
+          }
+          a {
+            color: $black;
+            align-self: center;
+            &:not(:last-child) {
+              margin-left: 10px;
+              margin-right: 5px;
+            }
+          }
+        }
+      }
     }
   }
 }

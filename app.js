@@ -10,6 +10,8 @@ import { localsMiddleware } from "./middlewares";
 import userRouter from "./routers/userRouter";
 import videoRouter from "./routers/videoRouter";
 import globalRouter from "./routers/globalRouter";
+import apiRouter from "./routers/apiRouter";
+
 import routes from "./routes";
 
 import "./passport";
@@ -47,5 +49,6 @@ app.use("/uploads", express.static("uploads"));
 app.use(routes.home, globalRouter);
 app.use(routes.user, userRouter);
 app.use(routes.video, videoRouter);
+app.use(routes.api, apiRouter);
 
 export default app;

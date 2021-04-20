@@ -7,6 +7,11 @@ const currentTime = document.getElementById("currentTime");
 const totalTime = document.getElementById("totalTime");
 const volumeRange = document.getElementById("jsVolume");
 
+const registerView = () => {
+  const getId = window.location.href.split("/videos/")[1];
+  fetch(`/api/${getId}/view`, { method: "POST" });
+};
+
 const formatDate = (seconds) => {
   const secondsNumber = parseInt(seconds, 10);
   let hours = Math.floor(secondsNumber / 3600);
@@ -102,6 +107,7 @@ function setTotalTime() {
 }
 
 function handleEnded() {
+  registerView();
   videoPlayer.currentTime = 0;
   playBtn.innerHTML = '<i class="fas fa-play"></i>';
 }
@@ -110,7 +116,6 @@ function handleDrag(event) {
   const {
     target: { value },
   } = event;
-  console.log(value);
   videoPlayer.volume = value;
   jsVolumeBtn.innerHTML = setVolumeIcon(value);
 }

@@ -13,6 +13,12 @@ const CommentSchema = new mongoose.Schema({
     type: mongoose.Schema.Types.ObjectId,
     ref: "User",
   },
+  name: String,
+  avatarUrl: String,
+  modifyFlag: {
+    type: Boolean,
+    default: false,
+  },
 });
 
 const model = mongoose.model("Comment", CommentSchema);

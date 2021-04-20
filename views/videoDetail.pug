@@ -21,6 +21,36 @@ block content
                 span.video__views #{video.views} views
         .video__comments
             if video.comments.length === 1
-                span.video__comment-number 1 comment
+                span.video__comment-number
+                    span#jsCommentNumber 1
+                    |  comment
             else
-                span.video__comment-number #{video.comments.length} comments
+                span.video__comment-number
+                    span#jsCommentNumber #{video.comments.length}
+                    |  comments
+            if loggedUser
+                form.add__comment#jsAddComment
+                    input#jsCommentText(type="text", placeholder="Add a comment")
+                    input#jsCommentNameHidden(type="hidden" value=loggedUser.name)
+                    input#jsCommentAvatarHidden(type="hidden" value=loggedUser.avatarUrl)
+            else
+                div.video__comments-loginMessage
+                    |Log in to write comments.
+            ul.video__comments-list#jsCommentList
+                each comment in video.comments.reverse()
+                    div#commentDiv
+                        div.video__comments-avatar
+                            img(src=comment.avatarUrl)
+                        div.video__comments-name
+                            div=comment.name
+                            div=`작성일 ${comment.createdAt.getFullYear()}-${comment.createdAt.getMonth()<10?`0${comment.createdAt.getMonth()}`:`${comment.createdAt.getMonth()}`}-${comment.createdAt.getDate()<10?`0${comment.createdAt.getDate()}`:`${comment.createdAt.getDate()}`}`
+
+                        div.video__comments-text
+                            li
+                                span=comment.text
+                            div.video__comments-date
+                            if loggedUser && comment.creator.toString() === loggedUser.id
+                                a.jsCommentEditBtn
+                                    i.fas.fa-edit
+                                a.jsCommentDeleteBtn
+                                    i.fas.fa-times
