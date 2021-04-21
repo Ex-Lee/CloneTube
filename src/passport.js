@@ -15,7 +15,11 @@ passport.use(
     {
       clientID: process.env.GITHUB_CLIENT_ID,
       clientSecret: process.env.GITHUB_CLIENT_SECRET,
-      callbackURL: `http://localhost:3000${routes.githubCallback}`,
+      callbackURL: `${
+        process.env.PRODUCTION
+          ? `https://git.heroku.com/ancient-sands-57079.git`
+          : `http://localhost:3000`
+      }${routes.githubCallback}`,
     },
     githubLoginCallback
   )
@@ -25,7 +29,11 @@ passport.use(
   new KakaoStrategy(
     {
       clientID: process.env.KAKAO_CLIENT_ID,
-      callbackURL: `http://localhost:3000${routes.kakaoCallback}`,
+      callbackURL: `${
+        process.env.PRODUCTION
+          ? `https://git.heroku.com/ancient-sands-57079.git`
+          : `http://localhost:3000`
+      }${routes.kakaoCallback}`,
     },
     kakaoLoginCallback
   )
