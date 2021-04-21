@@ -48,14 +48,15 @@
 //     },
 //   },
 // ];
-
+//mongodb://localhost:27017/clonetube
 import mongoose from "mongoose";
 import dotenv from "dotenv";
 
 dotenv.config();
-
 mongoose.connect(
-  process.env.PRODUCTION ? process.env.MONGO_URL_PROD : process.env.MONGO_URL,
+  process.env.PRODUCTION === "true"
+    ? process.env.MONGO_URL_PROD
+    : process.env.MONGO_URL,
   {
     useNewUrlParser: true,
     useFIndAndModify: false,

@@ -16,7 +16,7 @@ passport.use(
       clientID: process.env.GITHUB_CLIENT_ID,
       clientSecret: process.env.GITHUB_CLIENT_SECRET,
       callbackURL: `${
-        process.env.PRODUCTION
+        process.env.PRODUCTION === "true"
           ? `https://git.heroku.com/ancient-sands-57079.git`
           : `http://localhost:3000`
       }${routes.githubCallback}`,
@@ -30,7 +30,7 @@ passport.use(
     {
       clientID: process.env.KAKAO_CLIENT_ID,
       callbackURL: `${
-        process.env.PRODUCTION
+        process.env.PRODUCTION === "true"
           ? `https://git.heroku.com/ancient-sands-57079.git`
           : `http://localhost:3000`
       }${routes.kakaoCallback}`,
