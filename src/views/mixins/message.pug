@@ -1,0 +1,16 @@
+mixin message(message={})
+    .flash-message__container(class=message.type)
+        if message.type === "error"
+            span 🚫
+        else if message.type === "info"
+            span ❕
+        else
+            if message.text.toString() === "Welcome~" || message.text.toString() === "bye bye~"
+                span 👋
+            else
+                span ✅
+        |  
+        span.flash-message__text=message.text
+        
+
+

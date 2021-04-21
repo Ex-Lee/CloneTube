@@ -1,6 +1,6 @@
+import Comment from "../models/Comment";
 import routes from "../routes";
 import Video from "../models/Video";
-import Comment from "../models/Comment";
 
 export const home = async (req, res) => {
   try {
@@ -45,6 +45,7 @@ export const postUpload = async (req, res) => {
   });
   req.user.videos.push(newVideo.id);
   req.user.save();
+  req.flash("success", "Video upload success");
   res.redirect(routes.videoDetail(newVideo.id));
 };
 
@@ -86,6 +87,7 @@ export const postEditVideo = async (req, res) => {
       body: { title, description },
     } = req;
     await Video.findOneAndUpdate({ _id: id }, { title, description });
+    req.flash("success", "Edit video success");
     res.redirect(routes.videoDetail(id));
   } catch (error) {
     res.redirect(routes.home);
@@ -102,6 +104,7 @@ export const deleteVideo = async (req, res) => {
       throw Error;
     } else {
       await Video.findOneAndRemove({ _id: id });
+      req.flash("success", "Video delete success");
     }
   } catch (error) {
     console.log(error);

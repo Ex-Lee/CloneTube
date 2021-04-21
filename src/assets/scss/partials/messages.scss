@@ -1,0 +1,93 @@
+@keyframes fadein {
+  0% {
+    opacity: 0;
+  }
+  40% {
+    opacity: 1;
+  }
+  60% {
+    opacity: 1;
+  }
+  100% {
+    opacity: 0;
+  }
+}
+@-moz-keyframes fadein {
+  /* Firefox */
+  0% {
+    opacity: 0;
+  }
+  40% {
+    opacity: 1;
+  }
+  60% {
+    opacity: 1;
+  }
+  100% {
+    opacity: 0;
+  }
+}
+@-webkit-keyframes fadein {
+  /* Safari and Chrome */
+  0% {
+    opacity: 0;
+  }
+  40% {
+    opacity: 1;
+  }
+  60% {
+    opacity: 1;
+  }
+  100% {
+    opacity: 0;
+  }
+}
+@-o-keyframes fadein {
+  /* Opera */
+  0% {
+    opacity: 0;
+  }
+  40% {
+    opacity: 1;
+  }
+  60% {
+    opacity: 1;
+  }
+  100% {
+    opacity: 0;
+  }
+}
+
+.flash-message__container {
+  position: fixed;
+  /* center the element */
+  top: 50px;
+  right: 0;
+  left: 0;
+  margin-right: auto;
+  margin-left: auto;
+  /* give it dimensions */
+  width: fit-content;
+  text-align: center;
+  padding: 10px;
+  animation: fadein 2s;
+  -moz-animation: fadein 2s; /* Firefox */
+  -webkit-animation: fadein 2s; /* Safari and Chrome */
+  -o-animation: fadein 2s; /* Opera */
+  animation-fill-mode: forwards;
+  border-radius: 10px;
+  &.error {
+    background-color: #eb3b5a;
+  }
+  &.success {
+    background-color: #20bf6b;
+  }
+  &.info {
+    background-color: #3867d6;
+  }
+
+  .flash-message__text {
+    color: white;
+    font-size: 19px;
+  }
+}

@@ -3,6 +3,7 @@ import morgan from "morgan";
 import helmet from "helmet";
 import cookieParser from "cookie-parser";
 import bodyParser from "body-parser";
+import flash from "express-flash";
 import passport from "passport";
 import path from "path";
 import session from "express-session";
@@ -21,6 +22,8 @@ const app = express();
 
 app.set("view engine", "pug");
 app.set("views", path.join(__dirname, "views"));
+
+app.use(flash());
 
 app.use(
   helmet({

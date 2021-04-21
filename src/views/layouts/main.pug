@@ -1,3 +1,5 @@
+include ../mixins/message
+
 doctype html
 html
     head
@@ -5,6 +7,22 @@ html
         link(rel="stylesheet", href="https://use.fontawesome.com/releases/v5.15.2/css/all.css", integrity="sha384-vSIIfh2YWi9wW0r9iZe7RJPrKwp6bG+s9QZMoITbCckVJqGCCRhc+ccxNcdpHuYu", crossorigin="anonymous")
         link(rel="stylesheet", href="/static/main.css")
     body
+        if messages.error
+            +message({
+                type:"error",
+                text:messages.error
+            })
+        else if messages.info
+            +message({
+                type:"info",
+                text:messages.info
+            })
+        else if messages.success
+            +message({
+                type:"success",
+                text:messages.success
+            })
+            
         head
             include ../partial/header
         main
