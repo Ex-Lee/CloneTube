@@ -6,6 +6,7 @@ const fullScreenBtn = document.getElementById("jsFullScreen");
 const currentTime = document.getElementById("currentTime");
 const totalTime = document.getElementById("totalTime");
 const volumeRange = document.getElementById("jsVolume");
+const jsRunningTime = document.getElementById("jsRunningTime");
 
 const registerView = () => {
   const getId = window.location.href.split("/videos/")[1];
@@ -30,12 +31,24 @@ const formatDate = (seconds) => {
   return `${hours}:${minutes}:${totalSeconds}`;
 };
 
+function zeroHoursDelete(inputTime) {
+  const splitTime = inputTime.split(":");
+  let hours = splitTime[0];
+  if (hours === "00" || hours === "0") {
+    hours = "";
+  } else {
+    hours = `${hours}:`;
+  }
+  return `${hours}${splitTime[1]}:${splitTime[2]}`;
+}
+
 function setVolumeIcon(value) {
+  console.log(value);
   if (value >= 0.6) {
     return '<i class="fas fa-volume-up"></i>';
   } else if (value > 0.3) {
     return '<i class="fas fa-volume-down"></i>';
-  } else if (value === 0) {
+  } else if (value <= 0) {
     return '<i class="fas fa-volume-mute"></i>';
   } else {
     return '<i class="fas fa-volume-off"></i>';
@@ -97,12 +110,23 @@ function exitFullScreen() {
   fullScreenBtn.addEventListener("click", goFullScreen);
 }
 
+const setTotalRunningTime = () => {
+  jsRunningTime.max = Math.floor(videoPlayer.duration);
+  setInterval(() => {
+    jsRunningTime.value = Math.floor(videoPlayer.currentTime);
+  }, 1000);
+};
+
 function getCurrentTime() {
-  currentTime.innerHTML = formatDate(Math.floor(videoPlayer.currentTime));
+  currentTime.innerHTML = zeroHoursDelete(
+    formatDate(Math.floor(videoPlayer.currentTime))
+  );
 }
 
 function setTotalTime() {
-  totalTime.innerHTML = formatDate(videoPlayer.duration);
+  totalTime.innerHTML = zeroHoursDelete(formatDate(videoPlayer.duration));
+  setTotalRunningTime();
+  getCurrentTime();
   setInterval(getCurrentTime, 1000);
 }
 
@@ -120,6 +144,10 @@ function handleDrag(event) {
   jsVolumeBtn.innerHTML = setVolumeIcon(value);
 }
 
+const handleChangeTime = () => {
+  videoPlayer.currentTime = jsRunningTime.value;
+};
+
 function init() {
   videoPlayer.volume = 0.5;
   jsVolumeBtn.innerHTML = setVolumeIcon(videoPlayer.volume);
@@ -130,6 +158,11 @@ function init() {
   videoPlayer.addEventListener("play", setTotalTime);
   videoPlayer.addEventListener("ended", handleEnded);
   volumeRange.addEventListener("input", handleDrag);
+  jsRunningTime.addEventListener("input", handleChangeTime);
+
+  if (videoPlayer.readyState >= 2) {
+    setTotalTime();
+  }
 }
 
 if (videoContainer) {
