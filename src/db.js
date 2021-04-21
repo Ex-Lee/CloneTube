@@ -53,6 +53,11 @@ import mongoose from "mongoose";
 import dotenv from "dotenv";
 
 dotenv.config();
+console.log(
+  process.env.PRODUCTION === "true"
+    ? process.env.MONGO_URL_PROD
+    : process.env.MONGO_URL
+);
 mongoose.connect(
   process.env.PRODUCTION === "true"
     ? process.env.MONGO_URL_PROD
