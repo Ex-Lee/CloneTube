@@ -143,11 +143,11 @@ export const postEditProfile = async (req, res) => {
 
   try {
     if (file) {
-      console.log(file.path);
+      console.log(file);
       await Comment.updateMany(
-        { avatarUrl: `${req.user.avatarUrl}` },
+        { avatarUrl: req.user.avatarUrl },
         {
-          avatarUrl: file ? `/${file.path}` : `${req.user.avatarUrl}`,
+          avatarUrl: file ? file.location : req.user.avatarUrl,
         }
       );
     }
@@ -157,7 +157,7 @@ export const postEditProfile = async (req, res) => {
       {
         name,
         email,
-        avatarUrl: file ? `/${file.path}` : `${req.user.avatarUrl}`,
+        avatarUrl: file ? file.location : `${req.user.avatarUrl}`,
       }
     );
 

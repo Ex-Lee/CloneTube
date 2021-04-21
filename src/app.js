@@ -4,6 +4,7 @@ import helmet from "helmet";
 import cookieParser from "cookie-parser";
 import bodyParser from "body-parser";
 import passport from "passport";
+import path from "path";
 import session from "express-session";
 import MongoStore from "connect-mongo";
 import { localsMiddleware } from "./middlewares";
@@ -19,6 +20,7 @@ import "./passport";
 const app = express();
 
 app.set("view engine", "pug");
+app.set("views", path.join(__dirname, "views"));
 
 app.use(
   helmet({
@@ -41,10 +43,7 @@ app.use(passport.initialize());
 app.use(passport.session());
 app.use(localsMiddleware);
 
-app.use("/static", express.static("static"));
-// Temp code
-app.use("/uploads", express.static("uploads"));
-//
+app.use("/static", express.static(path.join(__dirname, "static")));
 
 app.use(routes.home, globalRouter);
 app.use(routes.user, userRouter);
