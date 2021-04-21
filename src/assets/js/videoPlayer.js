@@ -157,6 +157,7 @@ function init() {
   videoPlayer.addEventListener("loadedmetadata", setTotalTime);
   videoPlayer.addEventListener("play", setTotalTime);
   videoPlayer.addEventListener("ended", handleEnded);
+  videoPlayer.addEventListener("click", handlePlayClick);
   volumeRange.addEventListener("input", handleDrag);
   jsRunningTime.addEventListener("input", handleChangeTime);
 

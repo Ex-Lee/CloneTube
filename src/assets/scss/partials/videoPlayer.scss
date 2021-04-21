@@ -8,6 +8,7 @@
   video {
     width: 100%;
     max-width: 100%;
+    cursor: pointer;
   }
   .videoPlayer__time {
     font-size: 10px;
@@ -16,7 +17,7 @@
     padding-left: 5px;
   }
   .videoPlayer__controls {
-    // opacity: 0;
+    opacity: 0;
     transition: opacity 0.4s linear;
     color: white;
     position: absolute;
