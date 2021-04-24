@@ -4,6 +4,11 @@ mixin videoBlock(video = {})
             video.videoBlock__thumbnail(src=video.videoFile)
             h4.videoBlock__title=video.title
             if video.views === 1
-                h6.videoBlock__views 1 view
+                span.videoBlock__views 1 view
             else
-                h6.videoBlock__views #{video.views} views
+                span.videoBlock__views #{video.views} views
+            |  / 
+            if Object.keys(video.comments).length === 1
+                span.videoBlock__comments 1 comment
+            else
+                span.videoBlock__comments #{Object.keys(video.comments).length} comments
